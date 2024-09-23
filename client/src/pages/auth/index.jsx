@@ -7,6 +7,9 @@ import victory from '@/assets/victory.svg'
 import { Tabs,TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from 'sonner';
+import apiClient from '@/lib/apiClient';
+import { SIGNUP_ROUTE } from '@/utils/constants';
 
 
 const Auth = () => {
@@ -15,9 +18,35 @@ const Auth = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const handleSingUp = async () => {
+    const validateSignup = () => {
+        if(!email.length){
+            toast.error("Email is required");
+            return false;
+        }
+        if(!password.length){
+            toast.error("Password is required");
+            return false;
+        }
+        if(password.length < 6){
+            toast.error("Password must be at least 6 characters long");
+            return false;
+        }
+        if(password !== confirmPassword){
+            toast.error("Passwords and confirm password do not match");
+            return false;
+        }
+        
+        return true;
+    };
 
-    }
+    const handleSingUp = async ()=> {
+        if(validateSignup()){
+            const response = await apiClient.post(SIGNUP_ROUTE, {email, password});
+            console.log({response});
+           
+            }
+
+    };
 
     const handleLogin = async () => {
 
@@ -51,7 +80,7 @@ const Auth = () => {
 
                    
                 </TabsList>
-
+{/* ---------------------------------Login---------------------------------------- */}
                 <TabsContent className='flex flex-col gap-5 mt-10' value='login'>
                     <Input
                      type='email' 
@@ -66,9 +95,10 @@ const Auth = () => {
                     className='rounded-full p-6 '
                      value={password} 
                      onChange={(e) => setPassword(e.target.value)} />
-                     <Button onClick={handleSingUp} className='rounded-full p-6 bg-purple-500 text-white'>SignUp</Button>
+                     <Button onClick={handleLogin} className='rounded-full p-6 bg-purple-500 text-white'>SignUp</Button>
                 </TabsContent>
 
+{/* ------------------------------------SIGNUP-------------------------------------- */}
                 <TabsContent className='flex flex-col gap-5 ' value='signUp'>
                     <Input
                      type='email' 
@@ -91,7 +121,7 @@ const Auth = () => {
                      value={confirmPassword} 
                      onChange={(e) => setConfirmPassword(e.target.value)} />
 
-                     <Button onClick={handleLogin} className='rounded-full p-6 bg-purple-500 text-white'>Login</Button>
+                     <Button onClick={handleSingUp} className='rounded-full p-6 bg-purple-500 text-white'>SignUP</Button>
                      
                 </TabsContent>
 
