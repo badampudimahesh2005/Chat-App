@@ -74,17 +74,19 @@ const Auth = () => {
 
     const handleLogin = async () => {
         if(validateLogin()){
-            const response = await apiClient.post(LOGIN_ROUTE, {email, password},{withCredentials:true});
-            console.log({response});
-
-            if(response.data.user.id){
-                // if(response.data.user.profileSetup) navigate("/chat ");
-                // else navigate("/profile");
-                navigate(response.data.user.profileSetup ? "/chat" : "/profile");
+            try {
+                const response = await apiClient.post(LOGIN_ROUTE, {email, password}, {withCredentials:true});
+                
+                if(response.data.user.id){
+                    navigate(response.data.user.profileSetup ? "/chat" : "/profile");
+                } else {
+                    toast.error("Login failed. Please check your credentials.");
+                }
+            } catch (error) {
+                // console.error( error);
+                toast.error(error.response?.data || "An error occurred during login");
             }
         }
-
-
     }
     
 
@@ -130,7 +132,7 @@ const Auth = () => {
                     className='rounded-full p-6 '
                      value={password} 
                      onChange={(e) => setPassword(e.target.value)} />
-                     <Button onClick={handleLogin} className='rounded-full p-6 bg-purple-500 text-white'>SignUp</Button>
+                     <Button onClick={handleLogin} className='rounded-full p-6 bg-purple-500 text-white'>Login</Button>
                 </TabsContent>
 
 {/* ------------------------------------SIGNUP-------------------------------------- */}

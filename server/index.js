@@ -25,6 +25,7 @@ main()
   .catch((err) => {
     console.log(err);
   });
+
  async function main() {
     await mongoose.connect(databaseUrl); 
   }
@@ -32,12 +33,20 @@ main()
 
 
 
+/* This code snippet is setting up CORS (Cross-Origin Resource Sharing) middleware in a Node.js
+application using the `cors` package. Here's what each part of the configuration does: */
+
+/* this CORS configuration is used to enable the backend server to accept requests from a frontend application that is hosted on a different origin (domain, protocol, or port).*/
 app.use(cors({
     origin: [process.env.ORIGIN],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
 
 }));
+
+/* `app.use(cookieParser());` is setting up the middleware function `cookieParser` in the Express
+application. This middleware parses cookies attached to the client request object (`req.cookies`)
+and makes them available in the request object for further processing in the application. */
 app.use(cookieParser());
 app.use(express.json());
 
