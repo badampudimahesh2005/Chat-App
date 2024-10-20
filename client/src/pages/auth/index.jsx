@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from 'sonner';
 import apiClient from '@/lib/apiClient';
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from '@/utils/constants';
+import { useAppStore } from '@/store'
 
 
 const Auth = () => {
@@ -21,6 +22,8 @@ const Auth = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+
+const {setUserInfo} = useAppStore();
 
     const validateSignup = () => {
         if(!email.length){
@@ -46,9 +49,10 @@ const Auth = () => {
     const handleSingUp = async ()=> {
         if(validateSignup()){
             const response = await apiClient.post(SIGNUP_ROUTE, {email, password},{withCredentials:true});
-            console.log({response});
+            // console.log({response});
 
             if(response.status === 201){
+                setUserInfo(response.data.user);
                 navigate("/profile")
             }
            
@@ -78,6 +82,7 @@ const Auth = () => {
                 const response = await apiClient.post(LOGIN_ROUTE, {email, password}, {withCredentials:true});
                 
                 if(response.data.user.id){
+                    setUserInfo(response.data.user);
                     navigate(response.data.user.profileSetup ? "/chat" : "/profile");
                 } else {
                     toast.error("Login failed. Please check your credentials.");
