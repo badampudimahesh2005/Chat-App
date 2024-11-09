@@ -37,7 +37,6 @@ const App = () => {
 }
 
 -creating a auth route page ui
-`
 
 
 
@@ -152,11 +151,33 @@ export default apiClient;
     }
 
 
+# client
+
 # Zustand
 install zustand
 Zustand is a state management library for React. It is used to manage global state in a
 React application. It is a simple and lightweight library that allows you to manage state
 in a predictable and efficient way.
+
+-create userSlice
+
+when refressing  the page, the state is lost. To persist the state, whenever we reload page or component is loaded initially  we fetch the data from server ,we send the jwt token if token is valid , we get the user data from server and update the state.
+-----------------------------------
+-allowing chat and profile  component to authenticated user if user not authenicated navigate to auth page 
+
+const PrivateRoute = ({element}) => {
+  const {userInfo} = useAppStore();
+  const isAuthenticated = !!userInfo;
+  return isAuthenticated ? element : <Navigate to="/auth" />
+}
+
+const AuthRoute = ({element}) => {
+  const {userInfo} = useAppStore();
+  const isAuthenticated = !!userInfo;
+  return isAuthenticated ? <Navigate to="/chat" /> : element;
+}
+
+
 
 
 

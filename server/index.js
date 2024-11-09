@@ -5,6 +5,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/AuthRoutes.js';
 
+const app = express();
 
 
 /* `dotenv.config();` is a function call that loads environment variables from a `.env` file into
@@ -13,7 +14,19 @@ API keys, and other sensitive information without hardcoding them in the code. I
 sensitive information secure and separate from the codebase. */
 dotenv.config();
 
-const app = express();
+
+/* This code snippet is setting up CORS (Cross-Origin Resource Sharing) middleware in a Node.js
+application using the `cors` package. Here's what each part of the configuration does: */
+
+/* this CORS configuration is used to enable the backend server to accept requests from a frontend application that is hosted on a different origin (domain, protocol, or port).*/
+app.use(cors({
+  origin: [process.env.ORIGIN],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  credentials: true,
+
+}));
+
+
 const PORT = process.env.PORT || 3001;
 const databaseUrl = process.env.DATABASE_URL;
 
@@ -33,16 +46,6 @@ main()
 
 
 
-/* This code snippet is setting up CORS (Cross-Origin Resource Sharing) middleware in a Node.js
-application using the `cors` package. Here's what each part of the configuration does: */
-
-/* this CORS configuration is used to enable the backend server to accept requests from a frontend application that is hosted on a different origin (domain, protocol, or port).*/
-app.use(cors({
-    origin: [process.env.ORIGIN],
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    credentials: true,
-
-}));
 
 /* `app.use(cookieParser());` is setting up the middleware function `cookieParser` in the Express
 application. This middleware parses cookies attached to the client request object (`req.cookies`)
