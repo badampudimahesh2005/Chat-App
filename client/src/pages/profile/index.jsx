@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppStore } from '@/store'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { IoArrowBack } from 'react-icons/io5'
@@ -9,10 +9,17 @@ import {Avatar, AvatarImage} from "@/components/ui/avatar"
 
 import { colors, getColor } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
+import apiClient from '@/lib/apiClient'
+import { UPDATE_profile_ROUTE } from '@/utils/constants'
+
+
+
 
 const Profile = () => {
 
   const {userInfo,setUserInfo} = useAppStore();
+  const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -20,13 +27,66 @@ const Profile = () => {
   const [hovered, setHovered] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
 
-  const saveChanges = async () => {};
+
+  useEffect(() => {
+
+    if(userInfo.profileSetup){
+      setFirstName(userInfo.firstName);
+      setLastName(userInfo.lastName);
+      setSelectedColor(userInfo.color);
+    }
+    }, [userInfo]);
+
+  const validateProfile = () => {
+    if(!firstName) {
+      toast.error("First Name is required");
+      return false;
+      }
+      if(!lastName) {
+        toast.error("Last Name is required");
+        return false;
+        }
+        return true;
+  }
+
+  const saveChanges = async () => {
+    if(validateProfile()){
+      try{
+        const response = await apiClient.post(
+          UPDATE_profile_ROUTE,
+           {firstName, lastName, color: selectedColor},
+           {withCredentials: true}
+          );
+
+          if(response.status === 200 && response.data){
+            setUserInfo({...response.data});
+            toast.success("Profile updated successfully");
+            navigate("/chat"); 
+            
+          }
+
+      }catch(error){
+        toast.error(error.message);
+        }
+    }
+   
+  };
+
+  const handleNavigate = () => {
+    if(userInfo.profileSetup){
+      navigate("/chat");
+    }else{
+      toast.error("Please complete your profile setup");
+    }
+    }
+
+
 
   return (
     <div className='bg-[#1b1c24] h-[100vh] flex flex-col  gap-10 items-center justify-center '>
       <div className="flex flex-col gap-10 w-[80vw] md:w-max">
         
-        <div>
+        <div onClick={handleNavigate}>
           <IoArrowBack className="text-4xl lg:text-6xl text-white/90 cursor-pointer " />
         </div>
  
@@ -47,13 +107,15 @@ const Profile = () => {
                 </div>
               )}
 
-            </Avatar>
-            {
+              {
               hovered && (
-                <div className="absolute inset-0  flex items-center justify-center bg-black/50 rounded-full cursor-pointer ring-fuchsia-50">
+                <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full cursor-pointer ring-fuchsia-50">
                   {image ? <FaTrash className='text-white text-3xl cursor-pointer'  /> : <FaPlus className='text-white text-3xl cursor-pointer'   />}
                 </div>
             )}
+
+            </Avatar>
+           
               {/* <input type="text" /> */}
           </div>
 
@@ -74,7 +136,7 @@ const Profile = () => {
             {
               colors.map((color, index) => (
                 <div key={index} onClick={() => setSelectedColor(index)} className={`h-8 w-8 rounded-full ${color} cursor-pointe transition-all duration-300
-              ${selectedColor === index ? "outline outline-white/50 outline-1"  :""}
+              ${selectedColor === index ? "outline outline-white/80 outline-1"  :""}
               `}></div>
 
               ))
