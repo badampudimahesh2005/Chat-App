@@ -40,11 +40,12 @@ main()
   });
 
  async function main() {
-    await mongoose.connect(databaseUrl); 
+    await mongoose.connect(databaseUrl);
   }
 
 
 
+app.use("/uploads/profile", express.static("uploads/profile"));
 
 
 /* `app.use(cookieParser());` is setting up the middleware function `cookieParser` in the Express
