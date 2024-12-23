@@ -183,4 +183,15 @@ const AuthRoute = ({element}) => {
 
 
 
+# chat page 
+-----------------------------------
+-when user has created profile navigate to chat page
+-when user has not created profile navigate to profile page
 
+- in empty chat container we used a animation using  react-lottie
+
+what is react-lottie?
+react-lottie is a React component that renders Lottie animations. It is a powerful animation library that
+allows you to create complex animations using a JSON file. It is a popular choice for creating animations
+in React applications.
+-----------------------------------

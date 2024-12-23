@@ -21,6 +21,10 @@ export const signUp = async (req, res, next) => {
         if(!email || !password) {
             return res.status(400).send( "Please provide an email and password");
         }
+        const existingUser = await User.findOne({email});
+        if(existingUser) {
+            return res.status(400).send("Email already exists");
+        }
         //save the data in database
         const user = await User.create({ email, password });
 

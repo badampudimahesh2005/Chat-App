@@ -47,6 +47,7 @@ const {setUserInfo} = useAppStore();
     };
 
     const handleSingUp = async ()=> {
+        try{
         if(validateSignup()){
             const response = await apiClient.post(SIGNUP_ROUTE, {email, password},{withCredentials:true});
             // console.log({response});
@@ -57,6 +58,9 @@ const {setUserInfo} = useAppStore();
             }
            
             }
+        }catch(error){
+            toast.error(error.response?.data || "An error occurred during signup");
+        }
 
 
     };
