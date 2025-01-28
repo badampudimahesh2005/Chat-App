@@ -195,3 +195,6 @@ react-lottie is a React component that renders Lottie animations. It is a powerf
 allows you to create complex animations using a JSON file. It is a popular choice for creating animations
 in React applications.
 -----------------------------------
+# chat page -Chat container
+
+For emojis , we used react-emoji --> emoji-picker-react package 
