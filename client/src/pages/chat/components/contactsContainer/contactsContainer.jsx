@@ -1,3 +1,4 @@
+import ProfileInfo from "./components/ProfileInfo";
 
 const contactsContainer = () => {
   return (
@@ -18,7 +19,7 @@ const contactsContainer = () => {
           </div>
         </div>
 
-
+<ProfileInfo />
         </div>
   )
 }
