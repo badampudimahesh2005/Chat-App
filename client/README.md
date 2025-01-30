@@ -198,3 +198,10 @@ in React applications.
 # chat page -Chat container
 
 For emojis , we used react-emoji --> emoji-picker-react package 
+
+-----------------------------------
+# chat page - chat list
+ create new contacts route for searching the contacts
+ create chatslice to store the select contact for NewDm
+ -----------------------------------
+ 
