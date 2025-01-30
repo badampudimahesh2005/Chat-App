@@ -10,6 +10,6 @@ const ChatContainer = () => {
       <MessageBar />
     </div>
   )
-}
+ }
 
 export default ChatContainer
