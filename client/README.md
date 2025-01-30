@@ -204,4 +204,15 @@ For emojis , we used react-emoji --> emoji-picker-react package
  create new contacts route for searching the contacts
  create chatslice to store the select contact for NewDm
  -----------------------------------
+
+# SOCKET.IO
+ what is socket.io?
+ Socket.IO is a JavaScript library for real-time communication over the web. It enables bidirectional
+ communication between clients and servers via WebSockets. It is a popular choice for building real-time
+ applications, such as live updates, live chat, and live gaming.
+
+ what doest it mean bidirectional communication?
+ Bidirectional communication means that both the client and server can send and receive data at the same
+ time. This allows for real-time updates and interactions between the client and server.
+
  
