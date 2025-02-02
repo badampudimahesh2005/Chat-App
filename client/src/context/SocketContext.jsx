@@ -17,16 +17,29 @@ export const useSocket = () => {
         const {userInfo} = useAppStore();
 
         useEffect(() => {
-            if(userInfo){
+            if(userInfo ){
                 socket.current = io(HOST,{
                     withCredentials: true,
                     query: {
-                        userId: userInfo._id
+                        userId: userInfo.id
                         }
                     });
                     socket.current.on("connect", () => {
                         console.log("connected to socket server");
                         });
+
+
+                        const handleReceiveMessage = (message) => {
+                            const {selectedChatData, selectedChatType, addMessage}= useAppStore.getState();
+                             
+                            if(selectedChatType !== undefined &&  (selectedChatData._id === message.sender._id|| selectedChatData._id === message.receiver._id) ){
+                                addMessage(message);
+                                
+                            }
+
+                        }
+                        socket.current.on("receiveMessage", handleReceiveMessage);
+                        
 
                         return () => {
                             socket.current.disconnect();
@@ -35,7 +48,7 @@ export const useSocket = () => {
                 }, [userInfo]);
 
                 return (
-                    <SocketContext.Provider value={socket}>
+                    <SocketContext.Provider value={socket.current}>
                         {children}
                     </SocketContext.Provider>
                     );

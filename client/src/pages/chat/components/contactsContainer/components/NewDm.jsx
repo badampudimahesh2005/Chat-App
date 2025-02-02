@@ -100,7 +100,7 @@ const NewDm = () => {
                       {contact.image ? (
                             <AvatarImage 
                             src={`${HOST}/${contact.image}`} alt="profile"
-                                className="h-full w-full object-cover bg-black"
+                                className="h-full w-full object-cover bg-black rounded-full"
                              />
                             ) : (
                       <div className={` uppercase h-12 w-12   text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(contact.color)}`}>
