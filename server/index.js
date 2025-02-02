@@ -48,7 +48,9 @@ main()
 
 
 
+  
 app.use("/uploads/profile", express.static("uploads/profile"));
+app.use("/uploads/files", express.static("uploads/files"));
 
 
 /* `app.use(cookieParser());` is setting up the middleware function `cookieParser` in the Express
