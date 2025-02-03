@@ -28,7 +28,6 @@ export const getMessages = async (req, res, next) => {
 export const uploadFile = async (request, response, next) => {
   try {
     if (request.file) {
-      console.log("in try if");
       
       const date = Date.now();
       let fileDir = `uploads/files/${date}`;

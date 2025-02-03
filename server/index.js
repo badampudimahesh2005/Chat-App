@@ -7,6 +7,7 @@ import authRoutes from './routes/AuthRoutes.js';
 import contactRoutes from './routes/ContactRoutes.js';
 import setupSocket from './socket.js';
 import messagesRoutes from './routes/MessageRoutes.js';
+import channelRoutes from './routes/ChannelRoutes.js';
 
 const app = express();
 
@@ -65,6 +66,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/contacts", contactRoutes);
 
 app.use("/api/messages", messagesRoutes);
+
+app.use("/api/channel", channelRoutes);
 
 
 

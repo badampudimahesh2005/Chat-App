@@ -15,29 +15,37 @@ const ChatHeader = () => {
         <div className="flex gap-5 items-center  w-full justify-between">
             <div className="flex gap-3 items-center justify-center">
             <div className="h-12 w-12  rounded-full overflow-hidden">
-                  <Avatar className="h-12 w-12  rounded-full overflow-hidden">
-                      {selectedChatData.image ? (
-                            <AvatarImage 
-                            src={`${HOST}/${selectedChatData.image}`} alt="profile"
-                                className="h-full w-full object-cover bg-black"
-                             />
-                            ) : (
-                      <div className={` uppercase h-12 w-12   text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(selectedChatData.color)}`}>
-                         
-                             {
-                               selectedChatData.firstName ?
-                               selectedChatData.firstName.split("").shift()
-                               :selectedChatData.email.split("").shift()
-                              }
-                         
-                      </div>
-                       )}    
-                  </Avatar>
-                     
+              {
+                selectedChatType === "contact"
+                ? (<Avatar className="h-12 w-12  rounded-full overflow-hidden">
+                {selectedChatData.image ? (
+                      <AvatarImage 
+                      src={`${HOST}/${selectedChatData.image}`} alt="profile"
+                          className="h-full w-full object-cover bg-black"
+                       />
+                      ) : (
+                <div className={` uppercase h-12 w-12   text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(selectedChatData.color)}`}>
+                   
+                       {
+                         selectedChatData.firstName ?
+                         selectedChatData.firstName.split("").shift()
+                         :selectedChatData.email.split("").shift()
+                        }
+                   
+                </div>
+                 )}    
+            </Avatar>)
+            :(<div
+                className={` bg-[#ffffff22] h-10 w-10 flex items-center justify-center rounded-full`}
+              >
+                #
+              </div>
+              )}    
                </div>
 
                {/* show the name of the user on the chat header */}
                <div>
+                {selectedChatType === "channel" && selectedChatData.name  }
                       {selectedChatType === "contact" && selectedChatData.firstName ? (
                         <div className="text-lg font-bold">{selectedChatData.firstName}</div>
                       ) : (

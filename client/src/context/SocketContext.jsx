@@ -29,16 +29,34 @@ export const useSocket = () => {
                         });
 
 
+                        // function to handle receiving personal messages
                         const handleReceiveMessage = (message) => {
-                            const {selectedChatData, selectedChatType, addMessage}= useAppStore.getState();
+                            const {
+                                selectedChatData,
+                                 selectedChatType, 
+                                 addMessage,
+                                 addContactInDMContacts
+                                }= useAppStore.getState();
                              
                             if(selectedChatType !== undefined &&  (selectedChatData._id === message.sender._id|| selectedChatData._id === message.receiver._id) ){
                                 addMessage(message);
                                 
                             }
+                            addContactInDMContacts(message);
 
                         }
+                        // function to handle receiving channel messages
+                        const handleReceiveChannelMessage = (message) => {
+                            const {selectedChatData, selectedChatType, addMessage,addChannelInChannelList}= useAppStore.getState();
+                            if(selectedChatType !== undefined && selectedChatData._id === message.channelId){
+                                addMessage(message);
+                            }
+                            addChannelInChannelList(message);
+                        }
+
+
                         socket.current.on("receiveMessage", handleReceiveMessage);
+                        socket.current.on("receive-channel-message", handleReceiveChannelMessage);
                         
 
                         return () => {

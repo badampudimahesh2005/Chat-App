@@ -1,15 +1,16 @@
 import apiClient from "@/lib/apiClient";
 import NewDm from "./components/NewDm";
 import ProfileInfo from "./components/ProfileInfo";
-import { GET_CONTACTS_FOR_DM_ROUTE } from "@/utils/constants";
+import { GET_CONTACTS_FOR_DM_ROUTE, GET_USER_CHANNELS } from "@/utils/constants";
 import { useEffect } from "react";
 import ContactList from "@/components/ContactList";
 import { useAppStore } from "@/store";
+import CreateChannel from "./components/CreateChannel";
 
 const contactsContainer = () => {
 
 
-  const {setDirectMessagesContacts, directMessagesContacts} = useAppStore();
+  const {setDirectMessagesContacts, directMessagesContacts,channels, setChannels} = useAppStore();
 
   useEffect(() => {
     const getContacts = async () => {
@@ -20,7 +21,17 @@ const contactsContainer = () => {
         setDirectMessagesContacts(response.data.contacts);
       }
     }
+
+    const getChannels = async () => {
+      const response = await apiClient.get(GET_USER_CHANNELS, {
+        withCredentials: true,
+      });
+      if(response.data.channels){
+        setChannels(response.data.channels);
+      }
+    }
     getContacts();
+    getChannels();
   }, []);
 
   return (
@@ -43,6 +54,10 @@ const contactsContainer = () => {
         <div className="my-5">
           <div className="flex items-center justify-between pr-10">
             <Title text="Channels" />
+            <CreateChannel/>
+          </div>
+          <div className="max-h-[38vh] overflow-y-auto scrollbar-hidden">
+            <ContactList contacts={channels}  isChannel={true}/>
           </div>
         </div>
 
